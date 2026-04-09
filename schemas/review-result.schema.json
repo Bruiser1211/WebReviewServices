@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["summary", "decision", "changeItems", "missingItems", "risks", "evidence"],
+  "properties": {
+    "summary": {
+      "type": "string"
+    },
+    "decision": {
+      "type": "string"
+    },
+    "changeItems": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["issueType", "location", "originalText", "revisedText", "reason"],
+        "properties": {
+          "issueType": {
+            "type": "string",
+            "enum": ["error", "risk", "missing"]
+          },
+          "location": {
+            "type": "string"
+          },
+          "originalText": {
+            "type": "string"
+          },
+          "revisedText": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "missingItems": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "risks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

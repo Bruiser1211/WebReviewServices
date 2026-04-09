@@ -1,0 +1,62 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["rules"],
+  "properties": {
+    "rules": {
+      "type": "array",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "taskKey",
+          "taskLabel",
+          "feedbackDirection",
+          "issueType",
+          "originalPattern",
+          "revisedPattern",
+          "guidance",
+          "weightPercent",
+          "evidenceCount"
+        ],
+        "properties": {
+          "taskKey": {
+            "type": "string"
+          },
+          "taskLabel": {
+            "type": "string"
+          },
+          "feedbackDirection": {
+            "type": "string",
+            "enum": ["declared", "accepted", "mixed"]
+          },
+          "issueType": {
+            "type": "string",
+            "enum": ["error", "risk", "missing"]
+          },
+          "originalPattern": {
+            "type": "string",
+            "maxLength": 160
+          },
+          "revisedPattern": {
+            "type": "string",
+            "maxLength": 160
+          },
+          "guidance": {
+            "type": "string",
+            "maxLength": 240
+          },
+          "weightPercent": {
+            "type": "number",
+            "enum": [10]
+          },
+          "evidenceCount": {
+            "type": "number",
+            "minimum": 1
+          }
+        }
+      }
+    }
+  }
+}

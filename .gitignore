@@ -1,0 +1,12 @@
+.next
+node_modules
+*.log
+.env*
+tmp/jobs
+!tmp/jobs/.gitkeep
+.omx
+.playwright-cli
+launcher/build-tmp
+launcher/dist
+launcher/*.exe
+tsconfig.tsbuildinfo
