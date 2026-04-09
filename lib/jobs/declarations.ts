@@ -228,7 +228,10 @@ const buildPersistKey = (feedback: ReviewChangeFeedback) =>
     feedback.taskKey,
     feedback.changeIndex,
     normalizeText(feedback.location),
-    normalizeText(feedback.note)
+    normalizeText(feedback.note),
+    normalizeText(feedback.submitterIp ?? "미확인"),
+    normalizeText(feedback.submitterName ?? "이름없음"),
+    feedback.createdAt
   ].join("::");
 
 const getFeedbackArtifactPaths = () => {
