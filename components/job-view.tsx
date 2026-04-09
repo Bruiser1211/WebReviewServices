@@ -70,9 +70,9 @@ const formatRemainingTime = (seconds: number) => {
   return `약 ${minutes}분 ${remainSeconds}초`;
 };
 
-const estimateRemainingSeconds = (job: JobSnapshot) => {
+const estimateRemainingSeconds = (job: JobSnapshot, nowMs: number) => {
   const elapsedInCurrentStatus = clampNonNegative(
-    (Date.now() - new Date(job.updatedAt).getTime()) / 1000
+    (nowMs - new Date(job.updatedAt).getTime()) / 1000
   );
   const totalTasks = job.taskLabels.length;
   const finishedTasks = job.results.length;
@@ -130,11 +130,22 @@ export function JobView({ jobId }: JobViewProps) {
   const [results, setResults] = useState<TaskReviewResult[]>([]);
   const [activityLogs, setActivityLogs] = useState<JobActivityLog[]>([]);
   const [declarations, setDeclarations] = useState<ReviewChangeDeclaration[]>([]);
+  const [nowMs, setNowMs] = useState(() => Date.now());
   const [isSubmittingDeclarations, setIsSubmittingDeclarations] = useState(false);
   const [declarationMessage, setDeclarationMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const timelineLabels = useMemo(() => statusTimeline.map((step) => statusLabels[step]), []);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setNowMs(Date.now());
+    }, 1000);
+
+    return () => {
+      window.clearInterval(timer);
+    };
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -249,7 +260,7 @@ export function JobView({ jobId }: JobViewProps) {
   const progressText = job.currentTaskLabel
     ? `${job.currentTaskLabel} - ${job.progressMessage}`
     : job.progressMessage;
-  const remainingSeconds = estimateRemainingSeconds(job);
+  const remainingSeconds = estimateRemainingSeconds(job, nowMs);
   const remainingText =
     remainingSeconds === null ? null : `예상 남은 시간: ${formatRemainingTime(remainingSeconds)}`;
   const declarationMap = declarations.reduce<Record<string, ReviewChangeDeclaration>>(
